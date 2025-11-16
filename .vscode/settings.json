@@ -176,19 +176,21 @@
   "markdown.preview.breaks": true,
   "markdown.preview.linkify": true,
   "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",  // Use prettier for formatting
     "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 100,
     "editor.quickSuggestions": {
       "comments": "on",
       "strings": "on",
       "other": "on"
-    }
+    },
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": false  // Preserve trailing spaces for line breaks
   },
   "markdownlint.config": {
-    "MD013": false,
-    "MD033": false,
-    "MD041": false
+    "extends": ".markdownlint.json"
   },
+  "markdownlint.run": "onSave",
 
   // JSON Settings
   "[json]": {
@@ -240,43 +242,135 @@
   },
   "github.copilot.editor.enableAutoCompletions": true,
 
-  // Code Spell Checker
+  // Code Spell Checker - Comprehensive homelab dictionary
   "cSpell.enabled": true,
+  "cSpell.diagnosticLevel": "Warning",  // Show as warnings, not errors
+  "cSpell.showStatus": true,
+  "cSpell.maxNumberOfProblems": 100,
+  "cSpell.minWordLength": 4,  // Ignore very short words
+
+  // Custom dictionaries by file type
+  "cSpell.languageSettings": [
+    {
+      "languageId": "markdown",
+      "ignoreRegExpList": [
+        "/```[\\s\\S]*?```/g",  // Ignore code blocks
+        "/`[^`]*`/g",           // Ignore inline code
+        "/\\[.*?\\]\\(.*?\\)/g" // Ignore links
+      ]
+    },
+    {
+      "languageId": "yaml,ansible",
+      "ignoreRegExpList": [
+        "/#.*$/gm",             // Ignore comments
+        "/[a-z0-9-_]+:[a-z0-9-_]+/gi"  // Ignore key:value pairs
+      ]
+    }
+  ],
+
+  // Comprehensive homelab-specific word list
   "cSpell.words": [
-    "kubectl",
-    "kubernetes",
-    "k3s",
-    "ansible",
-    "terraform",
-    "tfvars",
-    "proxmox",
-    "homelab",
-    "longhorn",
-    "traefik",
-    "metallb",
-    "cilium",
-    "argocd",
-    "gitops",
-    "kustomize",
-    "vaultwarden",
-    "nextcloud",
-    "jellyfin",
-    "frigate",
-    "zigbee",
-    "mqtt",
-    "opnsense",
-    "truenas",
-    "postgres",
-    "postgresql",
-    "cloudnative",
-    "uptime",
-    "kuma",
-    "gotify",
-    "grafana",
-    "prometheus",
-    "loki",
-    "minio",
-    "tailscale"
+    // Kubernetes & Orchestration
+    "kubectl", "kubernetes", "k3s", "k8s", "kube", "kubeconfig", "kubelet",
+    "kustomize", "kustomization", "argocd", "gitops", "cilium", "metallb",
+    "longhorn", "traefik", "ingress", "egress", "kubeadm", "minikube",
+
+    // Ansible & Configuration
+    "ansible", "playbook", "playbooks", "jinja", "jinja2", "tfvars",
+    "idempotent", "idempotency", "vars", "vaultwarden",
+
+    // Terraform & IaC
+    "terraform", "tfstate", "tfplan", "tfvars", "hashicorp", "proxmox",
+
+    // Homelab Infrastructure
+    "homelab", "homelabs", "selfhost", "selfhosted", "opnsense",
+    "truenas", "unraid", "pfsense", "pihole",
+
+    // Storage & Backup
+    "longhorn", "rook", "ceph", "nfs", "iscsi", "minio", "s3",
+    "restic", "duplicati", "borg", "borgbackup",
+
+    // Networking
+    "vlan", "vlans", "dhcp", "dns", "wireguard", "tailscale",
+    "zerotier", "openvpn", "ipsec", "bgp", "ospf", "vxlan",
+
+    // Monitoring & Observability
+    "prometheus", "grafana", "loki", "alertmanager", "promtail",
+    "telegraf", "influxdb", "victoriametrics", "thanos",
+    "uptime", "kuma", "gotify", "ntfy", "healthchecks",
+
+    // Databases
+    "postgres", "postgresql", "mariadb", "mysql", "mongodb",
+    "redis", "valkey", "etcd", "cockroachdb", "timescaledb",
+
+    // Applications
+    "nextcloud", "jellyfin", "plex", "emby", "frigate",
+    "zigbee", "mqtt", "mosquitto", "nodered", "homeassistant",
+    "adguard", "vaultwarden", "bitwarden", "gitea", "forgejo",
+    "paperless", "ngx", "photoprism", "immich", "calibre",
+    "sonarr", "radarr", "lidarr", "prowlarr", "bazarr",
+    "tdarr", "handbrake", "ffmpeg",
+
+    // Security & Auth
+    "oauth", "oidc", "saml", "ldap", "keycloak", "authelia",
+    "authentik", "cert", "acme", "letsencrypt", "certbot",
+    "sso", "mfa", "totp", "fido", "yubikey",
+
+    // Container & Virtualization
+    "podman", "containerd", "crio", "qemu", "kvm", "libvirt",
+    "virt", "vmware", "esxi", "vcenter", "hyperv", "hypervisor",
+
+    // Cloud & APIs
+    "cloudflare", "duckdns", "noip", "webhook", "webhooks",
+    "api", "apis", "restful", "grpc", "graphql",
+
+    // Tools & CLIs
+    "helm", "helmfile", "kubectx", "kubens", "k9s", "lens",
+    "krew", "flux", "fluxcd", "helmsman", "skaffold",
+    "kubectl", "kustomize", "yamllint", "shellcheck", "hadolint",
+    "trivy", "falco", "gitleaks", "precommit",
+
+    // Programming & Config
+    "yaml", "toml", "hcl", "jsonnet", "jsonpath", "jmespath",
+    "regex", "envs", "confd", "templating", "dotenv",
+
+    // File Systems & Protocols
+    "cifs", "smb", "sshfs", "webdav", "rclone", "rsync",
+    "syncthing", "fstab", "mountpoint",
+
+    // Media & Smart Home
+    "jellyseerr", "overseerr", "ombi", "requestrr",
+    "tautulli", "varken", "organizr", "heimdall",
+    "zwave", "zigbee2mqtt", "deconz", "esphome",
+
+    // Misc Infrastructure
+    "systemd", "cron", "logrotate", "syslog", "journald",
+    "iptables", "nftables", "firewalld", "ufw", "selinux",
+    "apparmor", "seccomp", "cgroup", "namespace",
+
+    // Brand Names & Products
+    "cloudnative", "linuxserver", "linuxserver.io",
+    "ibracorp", "techno", "technotim", "unifi", "ubiquiti",
+    "synology", "qnap", "asustor", "intel", "nuc",
+
+    // Common Abbreviations
+    "cidr", "fqdn", "tld", "ddns", "wol", "ipmi", "bmc",
+    "raid", "zfs", "btrfs", "ext4", "xfs", "lvm",
+    "acl", "rbac", "mtls", "pki", "san", "nas", "hba"
+  ],
+
+  // Files to ignore for spell checking
+  "cSpell.ignorePaths": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.terraform/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/*.min.js",
+    "**/*.min.css",
+    "**/package-lock.json",
+    "**/yarn.lock",
+    "**/.vscode/**"
   ],
 
   // Error Lens Settings
@@ -316,14 +410,23 @@
   // Makefile Settings
   "makefile.extensionOutputFolder": "./.vscode",
 
-  // Prettier Settings
+  // Prettier Settings (comprehensive formatting)
   "prettier.enable": true,
+  "prettier.requireConfig": true,  // Only format if .prettierrc exists
+  "prettier.configPath": ".prettierrc.json",
   "prettier.tabWidth": 2,
   "prettier.singleQuote": false,
   "prettier.trailingComma": "es5",
+  "prettier.printWidth": 100,
+  "prettier.proseWrap": "preserve",
+  "prettier.endOfLine": "lf",
 
   // EditorConfig
   "editorconfig.enable": true,
+
+  // Continue.dev AI Assistant Settings
+  "continue.telemetryEnabled": false,
+  "continue.enableTabAutocomplete": true,
 
   // Security
   "security.workspace.trust.enabled": true,

@@ -1,0 +1,77 @@
+---
+# YAML Linting configuration for homelab files
+extends: default
+
+rules:
+  # Line length - allow longer lines for readability
+  line-length:
+    max: 120
+    level: warning
+
+  # Allow longer lines in comments
+  comments:
+    min-spaces-from-content: 2
+
+  # Indentation - 2 spaces is standard for YAML
+  indentation:
+    spaces: 2
+    indent-sequences: true
+
+  # Trailing spaces
+  trailing-spaces: enable
+
+  # Truthy values - allow 'yes/no' in addition to 'true/false'
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no', 'on', 'off']
+    check-keys: false
+
+  # Allow duplicate keys in anchors/aliases
+  key-duplicates:
+    forbid-duplicated-merge-keys: true
+
+  # Document start/end - optional
+  document-start: disable
+  document-end: disable
+
+  # Empty values
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: true
+
+  # Brackets and braces
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  # Colons
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+
+  # Commas
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+
+  # Hyphens
+  hyphens:
+    max-spaces-after: 1
+
+  # New lines
+  new-line-at-end-of-file: enable
+  new-lines:
+    type: unix
+
+# Ignore certain files/patterns
+ignore: |
+  .git/
+  .terraform/
+  node_modules/
+  venv/
+  .venv/
+  *.min.yml
+  *.min.yaml

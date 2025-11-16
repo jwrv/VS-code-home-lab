@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Lockfiles (don't format these)
+package-lock.json
+yarn.lock
+poetry.lock
+Pipfile.lock
+
+# Git
+.git/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

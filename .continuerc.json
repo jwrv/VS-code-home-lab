@@ -1,0 +1,110 @@
+{
+  "models": [
+    {
+      "title": "Claude 3.5 Sonnet",
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "apiKey": "${ANTHROPIC_API_KEY}"
+    },
+    {
+      "title": "GPT-4 Turbo",
+      "provider": "openai",
+      "model": "gpt-4-turbo-preview",
+      "apiKey": "${OPENAI_API_KEY}"
+    },
+    {
+      "title": "Gemini Pro",
+      "provider": "gemini",
+      "model": "gemini-pro",
+      "apiKey": "${GOOGLE_API_KEY}"
+    }
+  ],
+
+  "tabAutocompleteModel": {
+    "title": "Claude Code",
+    "provider": "anthropic",
+    "model": "claude-3-5-sonnet-20241022"
+  },
+
+  "embeddingsProvider": {
+    "provider": "openai",
+    "model": "text-embedding-3-small",
+    "apiKey": "${OPENAI_API_KEY}"
+  },
+
+  "contextProviders": [
+    {
+      "name": "diff",
+      "params": {}
+    },
+    {
+      "name": "open",
+      "params": {}
+    },
+    {
+      "name": "terminal",
+      "params": {}
+    },
+    {
+      "name": "code",
+      "params": {}
+    },
+    {
+      "name": "docs",
+      "params": {}
+    },
+    {
+      "name": "folder",
+      "params": {}
+    },
+    {
+      "name": "codebase",
+      "params": {}
+    }
+  ],
+
+  "slashCommands": [
+    {
+      "name": "edit",
+      "description": "Edit code in the current file"
+    },
+    {
+      "name": "comment",
+      "description": "Write comments for highlighted code"
+    },
+    {
+      "name": "share",
+      "description": "Export conversation to markdown"
+    },
+    {
+      "name": "cmd",
+      "description": "Generate a shell command"
+    }
+  ],
+
+  "customCommands": [
+    {
+      "name": "homelab-deploy",
+      "description": "Help deploy a service to homelab K3s cluster",
+      "prompt": "You are helping deploy a service to a K3s homelab cluster. The cluster uses Longhorn for storage, Traefik for ingress, cert-manager for TLS, and Prometheus for monitoring. Generate appropriate Kubernetes manifests following homelab best practices."
+    },
+    {
+      "name": "terraform-module",
+      "description": "Create a Terraform module for Proxmox",
+      "prompt": "Create a Terraform module for provisioning resources on Proxmox VE. Follow best practices with proper variable validation, outputs, and documentation. Use the Telmate/proxmox provider."
+    },
+    {
+      "name": "ansible-role",
+      "description": "Generate an Ansible role",
+      "prompt": "Generate an Ansible role following best practices. Include proper role structure (tasks, handlers, defaults, vars, templates, files), idempotent tasks, and comprehensive documentation."
+    }
+  ],
+
+  "allowAnonymousTelemetry": false,
+  "docs": [
+    "https://kubernetes.io/docs/",
+    "https://www.terraform.io/docs",
+    "https://docs.ansible.com/",
+    "https://docs.k3s.io/"
+  ]
+}

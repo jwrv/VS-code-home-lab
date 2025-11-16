@@ -1,114 +1,117 @@
 {
   "recommendations": [
-    // Core Infrastructure as Code
-    "hashicorp.terraform",
-    "hashicorp.hcl",
-    "4ops.terraform",
+    // ========================================
+    // INFRASTRUCTURE AS CODE
+    // ========================================
+    "hashicorp.terraform",              // Official Terraform support with syntax, validation, formatting
+    "hashicorp.hcl",                    // HCL language support for Terraform configs
 
-    // Ansible & Configuration Management
-    "redhat.ansible",
-    "redhat.vscode-yaml",
-    "wholroyd.jinja",
-    "samuelcolvin.jinjahtml",
+    // ========================================
+    // CONFIGURATION MANAGEMENT
+    // ========================================
+    "redhat.ansible",                   // Official Ansible extension with linting and syntax
+    "wholroyd.jinja",                   // Jinja2 template support for Ansible
 
-    // Kubernetes & Container Orchestration
-    "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "ms-azuretools.vscode-docker",
-    "ipedrazas.kubernetes-snippets",
-    "mindaro.mindaro",
+    // ========================================
+    // KUBERNETES & CONTAINERS
+    // ========================================
+    "ms-kubernetes-tools.vscode-kubernetes-tools",  // K8s management, debugging, YAML validation
+    "ms-azuretools.vscode-docker",      // Docker support with Dockerfile linting
+    "ipedrazas.kubernetes-snippets",    // K8s YAML snippets for quick manifest creation
 
-    // Python Development
-    "ms-python.python",
-    "ms-python.vscode-pylance",
-    "ms-python.black-formatter",
-    "ms-python.isort",
-    "ms-python.pylint",
-    "ms-python.debugpy",
+    // ========================================
+    // YAML SUPPORT (Critical for homelab)
+    // ========================================
+    "redhat.vscode-yaml",               // Advanced YAML support with schema validation
 
-    // Shell & Bash Scripting
-    "timonwong.shellcheck",
-    "foxundermoon.shell-format",
-    "mads-hartmann.bash-ide-vscode",
+    // ========================================
+    // PYTHON DEVELOPMENT
+    // ========================================
+    "ms-python.python",                 // Official Python extension
+    "ms-python.vscode-pylance",         // Fast Python language server
+    "ms-python.black-formatter",        // Black code formatter
+    "ms-python.isort",                  // Import sorting
+    "ms-python.pylint",                 // Python linting
+    "charliermarsh.ruff",               // Fast Python linter (alternative/supplement to pylint)
 
-    // YAML & JSON
-    "redhat.vscode-yaml",
-    "tamasfe.even-better-toml",
-    "mechatroner.rainbow-csv",
+    // ========================================
+    // SHELL & BASH
+    // ========================================
+    "timonwong.shellcheck",             // Shell script linting (critical for homelab scripts)
+    "foxundermoon.shell-format",        // Shell script formatting
 
-    // Git & Version Control
-    "eamodio.gitlens",
-    "mhutchie.git-graph",
-    "github.vscode-pull-request-github",
-    "github.vscode-github-actions",
-    "donjayamanne.githistory",
+    // ========================================
+    // GIT & VERSION CONTROL
+    // ========================================
+    "eamodio.gitlens",                  // Enhanced Git features
+    "mhutchie.git-graph",               // Visual Git graph
+    "github.vscode-pull-request-github", // GitHub PR integration
 
-    // Markdown & Documentation
-    "yzhang.markdown-all-in-one",
-    "davidanson.vscode-markdownlint",
-    "bierner.markdown-mermaid",
-    "bierner.markdown-preview-github-styles",
+    // ========================================
+    // MARKDOWN & DOCUMENTATION
+    // ========================================
+    "yzhang.markdown-all-in-one",       // Markdown shortcuts, TOC, preview
+    "davidanson.vscode-markdownlint",   // Markdown linting and style checking
+    "bierner.markdown-mermaid",         // Mermaid diagram support
+    "bierner.markdown-preview-github-styles", // GitHub-flavored markdown preview
 
-    // AI Assistants
-    "github.copilot",
-    "github.copilot-chat",
-    "anthropic.claude-code",
-    "googlecloudtools.cloudcode",
-    "google.gemini",
+    // ========================================
+    // AI ASSISTANTS (Primary homelab tools)
+    // ========================================
+    "github.copilot",                   // GitHub Copilot code completion
+    "github.copilot-chat",              // GitHub Copilot chat interface
+    "anthropic.claude-code",            // Claude Code AI assistant
+    "google.geminicodeassist",          // Official Google Gemini Code Assist
+    "continue.continue",                // Continue.dev - customizable AI with MCP support
 
-    // Code Quality & Linting
-    "editorconfig.editorconfig",
-    "streetsidesoftware.code-spell-checker",
-    "trunk.io",
-    "timonwong.shellcheck",
-    "exiasr.hadolint",
+    // ========================================
+    // CODE QUALITY & LINTING
+    // ========================================
+    "editorconfig.editorconfig",        // EditorConfig support for consistent formatting
+    "streetsidesoftware.code-spell-checker", // Spell checker with custom dictionaries
+    "esbenp.prettier-vscode",           // Prettier formatter for JS/TS/JSON/YAML/MD
+    "exiasr.hadolint",                  // Dockerfile linting
+    "usernamehw.errorlens",             // Inline error/warning display
 
-    // Remote Development
-    "ms-vscode-remote.remote-ssh",
-    "ms-vscode-remote.remote-ssh-edit",
-    "ms-vscode-remote.remote-containers",
-    "ms-vscode.remote-explorer",
+    // ========================================
+    // REMOTE DEVELOPMENT
+    // ========================================
+    "ms-vscode-remote.remote-ssh",      // SSH remote development
+    "ms-vscode-remote.remote-containers", // Dev container support
+    "ms-vscode.remote-explorer",        // Remote explorer UI
 
-    // Network & Security
-    "vscoss.vscode-ansible",
-    "pnp.polacode",
+    // ========================================
+    // HOMELAB-SPECIFIC TOOLS
+    // ========================================
+    "ms-vscode.makefile-tools",         // Makefile IntelliSense and support
+    "tamasfe.even-better-toml",         // TOML support for config files
+    "peterj.prometheus-snippets",       // Prometheus query snippets
 
-    // Productivity
-    "gruntfuggly.todo-tree",
-    "aaron-bond.better-comments",
-    "usernamehw.errorlens",
-    "christian-kohler.path-intellisense",
-    "visualstudioexptteam.vscodeintellicode",
+    // ========================================
+    // PRODUCTIVITY & UTILITIES
+    // ========================================
+    "gruntfuggly.todo-tree",            // TODO/FIXME highlighting and tree view
+    "aaron-bond.better-comments",       // Enhanced comment highlighting
+    "christian-kohler.path-intellisense", // Path autocomplete
+    "shardulm94.trailing-spaces",       // Highlight and remove trailing spaces
 
-    // Theme & Icons
-    "vscode-icons-team.vscode-icons",
-    "pkief.material-icon-theme",
+    // ========================================
+    // THEME & ICONS
+    // ========================================
+    "vscode-icons-team.vscode-icons",   // File/folder icons for better navigation
 
-    // API & REST
-    "humao.rest-client",
-    "rangav.vscode-thunder-client",
+    // ========================================
+    // OPTIONAL: API TESTING
+    // ========================================
+    "humao.rest-client"                 // REST client for API testing (useful for homelab APIs)
+  ],
 
-    // Makefile Support
-    "ms-vscode.makefile-tools",
-
-    // Jinja2 & Templating
-    "wholroyd.jinja",
-
-    // Prometheus & Monitoring
-    "peterj.prometheus-snippets",
-
-    // Home Assistant (if using)
-    "keesschollaart.vscode-home-assistant",
-
-    // Node.js & TypeScript (for MCP workspace)
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "ms-vscode.vscode-typescript-next",
-
-    // Additional Utilities
-    "alefragnani.bookmarks",
-    "oderwat.indent-rainbow",
-    "shardulm94.trailing-spaces",
-    "ryu1kn.partial-diff",
-    "wayou.vscode-todo-highlight"
+  // Extensions to avoid/ignore (these are handled by other tools or not needed)
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript-next", // Not needed unless doing heavy TS development
+    "visualstudioexptteam.vscodeintellicode", // Redundant with AI assistants
+    "googlecloudtools.cloudcode",       // Replaced by geminicodeassist
+    "vscoss.vscode-ansible",            // Duplicate of redhat.ansible
+    "trunk.io"                          // Can be resource-intensive, pre-commit is sufficient
   ]
 }

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json",
+  "default": true,
+
+  // Line length - disabled to avoid issues with long lines in documentation
+  "MD013": false,
+
+  // Allow inline HTML (useful for complex formatting)
+  "MD033": {
+    "allowed_elements": [
+      "br",
+      "img",
+      "details",
+      "summary",
+      "kbd",
+      "sub",
+      "sup"
+    ]
+  },
+
+  // Allow first line not to be a top-level heading
+  "MD041": false,
+
+  // Allow bare URLs (common in documentation)
+  "MD034": false,
+
+  // Enforce consistent list marker style
+  "MD004": {
+    "style": "dash"
+  },
+
+  // Enforce consistent emphasis style
+  "MD049": {
+    "style": "asterisk"
+  },
+
+  // Enforce consistent strong style
+  "MD050": {
+    "style": "asterisk"
+  },
+
+  // Enforce consistent code block style
+  "MD046": {
+    "style": "fenced"
+  },
+
+  // Allow duplicate headings (common in READMEs with multiple sections)
+  "MD024": {
+    "siblings_only": true
+  },
+
+  // Trailing spaces - allow 2 spaces for line breaks
+  "MD009": {
+    "br_spaces": 2
+  },
+
+  // Multiple consecutive blank lines
+  "MD012": {
+    "maximum": 2
+  },
+
+  // Enforce heading style
+  "MD003": {
+    "style": "atx"
+  },
+
+  // Allow punctuation in headings
+  "MD026": {
+    "punctuation": ".,;:"
+  }
+}
