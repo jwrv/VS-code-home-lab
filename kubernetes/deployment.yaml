@@ -1,0 +1,166 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vscode-server
+  namespace: development
+  labels:
+    app: vscode-server
+    environment: development
+spec:
+  replicas: 1  # VS Code server is typically single instance
+  strategy:
+    type: Recreate  # Ensures clean shutdown/startup
+  selector:
+    matchLabels:
+      app: vscode-server
+  template:
+    metadata:
+      labels:
+        app: vscode-server
+        environment: development
+    spec:
+      # Use a service account with appropriate permissions
+      serviceAccountName: vscode-server
+
+      # Security context
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true
+
+      containers:
+      - name: code-server
+        image: codercom/code-server:latest
+        imagePullPolicy: Always
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        # Environment variables from ConfigMap and Secret
+        envFrom:
+        - configMapRef:
+            name: vscode-config
+        - secretRef:
+            name: vscode-secrets
+
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+
+        # Resource limits
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+
+        # Volume mounts
+        volumeMounts:
+        # Workspace data
+        - name: workspace
+          mountPath: /workspace
+        # VS Code extensions
+        - name: extensions
+          mountPath: /home/coder/.local/share/code-server/extensions
+        # VS Code configuration
+        - name: config
+          mountPath: /home/coder/.local/share/code-server
+        # Code server config file
+        - name: code-server-config
+          mountPath: /home/coder/.config/code-server
+        # SSH keys (optional - mount from secret)
+        - name: ssh-keys
+          mountPath: /home/coder/.ssh
+          readOnly: true
+        # Kubeconfig (optional - mount from secret)
+        - name: kubeconfig
+          mountPath: /home/coder/.kube
+          readOnly: true
+
+        # Liveness probe
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Readiness probe
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Startup probe (for slow container startup)
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+
+      volumes:
+      # Persistent volumes
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: vscode-workspace
+      - name: extensions
+        persistentVolumeClaim:
+          claimName: vscode-extensions
+      - name: config
+        persistentVolumeClaim:
+          claimName: vscode-config
+
+      # ConfigMap volumes
+      - name: code-server-config
+        configMap:
+          name: vscode-config
+          items:
+          - key: code-server-config.yaml
+            path: config.yaml
+
+      # Secret volumes (create these secrets as needed)
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys
+          defaultMode: 0600
+          optional: true
+
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig
+          defaultMode: 0600
+          optional: true
+
+      # Node affinity (optional - prefer nodes with more resources)
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+
+      # Tolerations (if using tainted nodes)
+      tolerations:
+      - key: "workload"
+        operator: "Equal"
+        value: "development"
+        effect: "NoSchedule"

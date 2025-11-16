@@ -1,0 +1,114 @@
+{
+  "recommendations": [
+    // Core Infrastructure as Code
+    "hashicorp.terraform",
+    "hashicorp.hcl",
+    "4ops.terraform",
+
+    // Ansible & Configuration Management
+    "redhat.ansible",
+    "redhat.vscode-yaml",
+    "wholroyd.jinja",
+    "samuelcolvin.jinjahtml",
+
+    // Kubernetes & Container Orchestration
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "ms-azuretools.vscode-docker",
+    "ipedrazas.kubernetes-snippets",
+    "mindaro.mindaro",
+
+    // Python Development
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+    "ms-python.pylint",
+    "ms-python.debugpy",
+
+    // Shell & Bash Scripting
+    "timonwong.shellcheck",
+    "foxundermoon.shell-format",
+    "mads-hartmann.bash-ide-vscode",
+
+    // YAML & JSON
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "mechatroner.rainbow-csv",
+
+    // Git & Version Control
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    "github.vscode-pull-request-github",
+    "github.vscode-github-actions",
+    "donjayamanne.githistory",
+
+    // Markdown & Documentation
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
+    "bierner.markdown-preview-github-styles",
+
+    // AI Assistants
+    "github.copilot",
+    "github.copilot-chat",
+    "anthropic.claude-code",
+    "googlecloudtools.cloudcode",
+    "google.gemini",
+
+    // Code Quality & Linting
+    "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
+    "trunk.io",
+    "timonwong.shellcheck",
+    "exiasr.hadolint",
+
+    // Remote Development
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-ssh-edit",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode.remote-explorer",
+
+    // Network & Security
+    "vscoss.vscode-ansible",
+    "pnp.polacode",
+
+    // Productivity
+    "gruntfuggly.todo-tree",
+    "aaron-bond.better-comments",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "visualstudioexptteam.vscodeintellicode",
+
+    // Theme & Icons
+    "vscode-icons-team.vscode-icons",
+    "pkief.material-icon-theme",
+
+    // API & REST
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+
+    // Makefile Support
+    "ms-vscode.makefile-tools",
+
+    // Jinja2 & Templating
+    "wholroyd.jinja",
+
+    // Prometheus & Monitoring
+    "peterj.prometheus-snippets",
+
+    // Home Assistant (if using)
+    "keesschollaart.vscode-home-assistant",
+
+    // Node.js & TypeScript (for MCP workspace)
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+
+    // Additional Utilities
+    "alefragnani.bookmarks",
+    "oderwat.indent-rainbow",
+    "shardulm94.trailing-spaces",
+    "ryu1kn.partial-diff",
+    "wayou.vscode-todo-highlight"
+  ]
+}

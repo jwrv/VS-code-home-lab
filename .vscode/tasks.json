@@ -1,0 +1,307 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // Terraform Tasks
+    {
+      "label": "Terraform: Init",
+      "type": "shell",
+      "command": "terraform init",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/terraform"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Terraform: Plan",
+      "type": "shell",
+      "command": "terraform plan",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/terraform"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Terraform: Validate",
+      "type": "shell",
+      "command": "terraform validate",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/terraform"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Terraform: Format",
+      "type": "shell",
+      "command": "terraform fmt -recursive",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/terraform"
+      },
+      "problemMatcher": []
+    },
+
+    // Ansible Tasks
+    {
+      "label": "Ansible: Lint",
+      "type": "shell",
+      "command": "ansible-lint",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/ansible"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Ansible: Syntax Check",
+      "type": "shell",
+      "command": "ansible-playbook --syntax-check playbooks/*.yml",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/ansible"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Ansible: Generate Inventory",
+      "type": "shell",
+      "command": "python3 scripts/generate-ansible-inventory.py",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    },
+
+    // Kubernetes Tasks
+    {
+      "label": "Kubectl: Get All Pods",
+      "type": "shell",
+      "command": "kubectl get pods --all-namespaces",
+      "problemMatcher": []
+    },
+    {
+      "label": "Kubectl: Get Services",
+      "type": "shell",
+      "command": "kubectl get services --all-namespaces",
+      "problemMatcher": []
+    },
+    {
+      "label": "Kubectl: Apply Manifests",
+      "type": "shell",
+      "command": "kubectl apply -f ${file}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Kubectl: Validate Manifests",
+      "type": "shell",
+      "command": "kubectl apply --dry-run=client -f ${file}",
+      "problemMatcher": []
+    },
+    {
+      "label": "K3s: Get Cluster Info",
+      "type": "shell",
+      "command": "kubectl cluster-info",
+      "problemMatcher": []
+    },
+
+    // Docker Tasks
+    {
+      "label": "Docker: Build Image",
+      "type": "shell",
+      "command": "docker build -t homelab-vscode:latest .",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker Compose: Up",
+      "type": "shell",
+      "command": "docker-compose up -d",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker Compose: Down",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+
+    // Python/Testing Tasks
+    {
+      "label": "Python: Run Tests",
+      "type": "shell",
+      "command": "pytest tests/",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Lint (Pylint)",
+      "type": "shell",
+      "command": "pylint **/*.py",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/scripts"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: Format (Black)",
+      "type": "shell",
+      "command": "black .",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/scripts"
+      },
+      "problemMatcher": []
+    },
+
+    // Linting Tasks
+    {
+      "label": "Lint: YAML",
+      "type": "shell",
+      "command": "yamllint .",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint: Shell Scripts",
+      "type": "shell",
+      "command": "shellcheck **/*.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra/scripts"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint: All",
+      "type": "shell",
+      "command": "pre-commit run --all-files",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "Lint: YAML",
+        "Lint: Shell Scripts",
+        "Ansible: Lint"
+      ]
+    },
+
+    // Homelab Makefile Tasks
+    {
+      "label": "Homelab: Make Init",
+      "type": "shell",
+      "command": "make init",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Homelab: Make Validate",
+      "type": "shell",
+      "command": "make validate",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Homelab: Make Plan",
+      "type": "shell",
+      "command": "make plan",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Homelab: Deploy Platform",
+      "type": "shell",
+      "command": "make deploy-platform",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+
+    // Documentation Tasks
+    {
+      "label": "Docs: Serve MkDocs",
+      "type": "shell",
+      "command": "mkdocs serve",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "Docs: Build MkDocs",
+      "type": "shell",
+      "command": "mkdocs build",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab"
+      },
+      "problemMatcher": []
+    },
+
+    // Monitoring Tasks
+    {
+      "label": "Monitor: Uptime Kuma Sync",
+      "type": "shell",
+      "command": "python3 scripts/generate-uptime-kuma-monitors.py",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    },
+
+    // Network Tasks
+    {
+      "label": "Network: DNS Drift Check",
+      "type": "shell",
+      "command": "python3 scripts/dns-drift-check.py",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Network: Validate Config",
+      "type": "shell",
+      "command": "bash scripts/network-drift-check.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    },
+
+    // Backup Tasks
+    {
+      "label": "Backup: Terraform State",
+      "type": "shell",
+      "command": "bash scripts/backup-terraform-state.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    },
+
+    // Secret Management
+    {
+      "label": "Secrets: Rotate",
+      "type": "shell",
+      "command": "bash scripts/rotate-secrets.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/Homelab/infra"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

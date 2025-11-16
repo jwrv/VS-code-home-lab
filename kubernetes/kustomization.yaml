@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: development
+
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - configmap.yaml
+  - secret.yaml
+  - pvc.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+commonLabels:
+  app: vscode-server
+  managed-by: kustomize
+
+# Images (can be overridden for different versions)
+images:
+  - name: codercom/code-server
+    newTag: latest
+
+# ConfigMap generator (optional - alternative to configmap.yaml)
+# configMapGenerator:
+#   - name: vscode-config
+#     literals:
+#       - TZ=America/New_York
+#       - HOMELAB_ENV=kubernetes
+
+# Secret generator (optional - better to use External Secrets)
+# secretGenerator:
+#   - name: vscode-secrets
+#     literals:
+#       - PASSWORD=changeme
+
+# Patches for environment-specific overrides
+patches:
+  # Patch for production (example)
+  # - path: overlays/production/resources.yaml
+  #   target:
+  #     kind: Deployment
+  #     name: vscode-server

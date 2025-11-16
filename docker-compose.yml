@@ -1,0 +1,185 @@
+version: '3.8'
+
+services:
+  # VS Code Server - code-server (browser-based VS Code)
+  vscode-server:
+    image: codercom/code-server:latest
+    container_name: homelab-vscode
+    restart: unless-stopped
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      - PASSWORD=${VSCODE_PASSWORD:-changeme}
+      - SUDO_PASSWORD=${VSCODE_SUDO_PASSWORD:-changeme}
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - DEFAULT_WORKSPACE=/workspace/Homelab
+
+    volumes:
+      # Workspace - mount your homelab directory
+      - ${HOMELAB_PATH:-../Homelab}:/workspace/Homelab:cached
+      - ./:/workspace/VS-code-home-lab:cached
+
+      # VS Code configuration
+      - vscode-config:/home/coder/.local/share/code-server
+      - vscode-extensions:/home/coder/.local/share/code-server/extensions
+
+      # Development tools configuration
+      - vscode-ssh:/home/coder/.ssh:ro
+      - vscode-kube:/home/coder/.kube:ro
+      - vscode-aws:/home/coder/.aws:ro
+      - vscode-gcloud:/home/coder/.config/gcloud:ro
+
+      # Git configuration
+      - ${HOME}/.gitconfig:/home/coder/.gitconfig:ro
+
+      # Docker socket for Docker-in-Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    networks:
+      - homelab-dev
+
+    # User with Docker group access
+    user: "1000:999"  # Adjust group ID to match Docker group
+
+    # Add capabilities for networking tools
+    cap_add:
+      - NET_ADMIN
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Labels for Traefik (if using in homelab)
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vscode.rule=Host(`vscode.homelab.local`)"
+      - "traefik.http.routers.vscode.entrypoints=websecure"
+      - "traefik.http.routers.vscode.tls=true"
+      - "traefik.http.services.vscode.loadbalancer.server.port=8080"
+
+  # Optional: Development tools container
+  # Separate container with CLI tools for running commands
+  dev-tools:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: homelab-dev-tools
+    restart: unless-stopped
+
+    environment:
+      - KUBECONFIG=/workspace/.kube/config
+      - ANSIBLE_CONFIG=/workspace/Homelab/infra/ansible/ansible.cfg
+      - TF_DATA_DIR=/workspace/Homelab/infra/terraform/.terraform
+      - HOMELAB_ENV=development
+
+    volumes:
+      # Same workspace mounts as vscode-server
+      - ${HOMELAB_PATH:-../Homelab}:/workspace/Homelab:cached
+      - ./:/workspace/VS-code-home-lab:cached
+
+      # Configuration directories
+      - ${HOME}/.ssh:/root/.ssh:ro
+      - ${HOME}/.kube:/root/.kube:ro
+      - ${HOME}/.aws:/root/.aws:ro
+
+      # Docker socket
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      # Persistent data
+      - dev-tools-cache:/root/.cache
+      - terraform-plugins:/root/.terraform.d/plugin-cache
+
+    networks:
+      - homelab-dev
+
+    # Keep container running
+    command: tail -f /dev/null
+
+    # Privileged mode for full access
+    privileged: true
+
+  # Optional: Monitoring for the dev environment
+  # Lightweight metrics collector
+  prometheus-node-exporter:
+    image: prom/node-exporter:latest
+    container_name: vscode-metrics
+    restart: unless-stopped
+
+    ports:
+      - "9100:9100"
+
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+
+    networks:
+      - homelab-dev
+
+    # Optional: only run if you want metrics
+    profiles:
+      - monitoring
+
+networks:
+  homelab-dev:
+    name: homelab-dev
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  # VS Code data
+  vscode-config:
+    name: homelab-vscode-config
+  vscode-extensions:
+    name: homelab-vscode-extensions
+
+  # Mount points for credentials (bind mounts)
+  vscode-ssh:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.ssh
+
+  vscode-kube:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.kube
+
+  vscode-aws:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.aws
+
+  vscode-gcloud:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.config/gcloud
+
+  # Dev tools data
+  dev-tools-cache:
+    name: homelab-dev-cache
+  terraform-plugins:
+    name: homelab-terraform-plugins

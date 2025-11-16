@@ -1,0 +1,115 @@
+{
+  "name": "Homelab VS Code Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "VARIANT": "3.11-bullseye"
+    }
+  },
+
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "terraform.languageServer.enable": true,
+        "ansible.python.interpreterPath": "/usr/local/bin/python"
+      },
+      "extensions": [
+        "hashicorp.terraform",
+        "redhat.ansible",
+        "redhat.vscode-yaml",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "eamodio.gitlens",
+        "github.copilot",
+        "github.copilot-chat",
+        "anthropic.claude-code",
+        "timonwong.shellcheck",
+        "foxundermoon.shell-format",
+        "editorconfig.editorconfig",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally
+  "forwardPorts": [
+    8080,  // General web UI
+    9090,  // Prometheus
+    3000,  // Grafana
+    8443,  // Kubernetes API (if needed)
+    6443   // K3s API
+  ],
+
+  // Use 'postCreateCommand' to run commands after the container is created
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Configure container environment variables
+  "containerEnv": {
+    "KUBECONFIG": "/workspace/.kube/config",
+    "ANSIBLE_CONFIG": "/workspace/Homelab/infra/ansible/ansible.cfg",
+    "TF_DATA_DIR": "/workspace/Homelab/infra/terraform/.terraform",
+    "HOMELAB_ENV": "development"
+  },
+
+  // Mount the workspace folder
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  // Additional mounts for credentials and configs
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.config/gcloud,target=/root/.config/gcloud,type=bind,consistency=cached",
+    "source=vscode-extensions,target=/root/.vscode-server/extensions,type=volume"
+  ],
+
+  // Set container user (root for full access to tools)
+  "remoteUser": "root",
+
+  // Enable privileged mode for Docker-in-Docker and network operations
+  "runArgs": [
+    "--privileged",
+    "--network=host",
+    "--cap-add=NET_ADMIN",
+    "--cap-add=SYS_ADMIN"
+  ],
+
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "none"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": false,
+      "username": "root",
+      "userUid": "0",
+      "userGid": "0"
+    }
+  },
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo 'Container created!'",
+  "updateContentCommand": "echo 'Content updated!'",
+  "postStartCommand": "echo 'Container started!'"
+}

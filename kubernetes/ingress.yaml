@@ -1,0 +1,82 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vscode-server
+  namespace: development
+  labels:
+    app: vscode-server
+  annotations:
+    # Traefik annotations
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+    # Cert-manager annotations for TLS
+    cert-manager.io/cluster-issuer: letsencrypt-production  # Change to your issuer
+    cert-manager.io/common-name: vscode.homelab.local
+
+    # WebSocket support (required for VS Code)
+    traefik.ingress.kubernetes.io/router.middlewares: development-websocket-headers@kubernetescrd
+
+    # Optional: Basic auth middleware for additional security
+    # traefik.ingress.kubernetes.io/router.middlewares: development-basic-auth@kubernetescrd
+
+    # Optional: IP whitelist
+    # traefik.ingress.kubernetes.io/router.middlewares: development-ip-whitelist@kubernetescrd
+
+spec:
+  ingressClassName: traefik  # Or your ingress class
+  tls:
+  - hosts:
+    - vscode.homelab.local
+    secretName: vscode-tls-cert
+  rules:
+  - host: vscode.homelab.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vscode-server
+            port:
+              name: http
+---
+# Middleware for WebSocket headers
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: websocket-headers
+  namespace: development
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+    customResponseHeaders:
+      X-Frame-Options: "SAMEORIGIN"
+      X-Content-Type-Options: "nosniff"
+---
+# Optional: Basic Auth middleware
+# Create auth secret with: htpasswd -c auth username
+# kubectl create secret generic vscode-basic-auth --from-file=auth -n development
+#
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: basic-auth
+#   namespace: development
+# spec:
+#   basicAuth:
+#     secret: vscode-basic-auth
+---
+# Optional: IP Whitelist middleware
+#
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: ip-whitelist
+#   namespace: development
+# spec:
+#   ipWhiteList:
+#     sourceRange:
+#     - 192.168.1.0/24      # Your local network
+#     - 100.64.0.0/10       # Tailscale CGNAT range

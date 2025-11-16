@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vscode-config
+  namespace: development
+data:
+  # VS Code server configuration
+  TZ: "America/New_York"
+  DEFAULT_WORKSPACE: "/workspace/Homelab"
+
+  # Kubernetes configuration
+  KUBECONFIG: "/workspace/.kube/config"
+  K8S_CLUSTER_NAME: "homelab-k3s"
+
+  # Terraform configuration
+  TF_DATA_DIR: "/workspace/Homelab/infra/terraform/.terraform"
+  TF_PLUGIN_CACHE_DIR: "/home/coder/.terraform.d/plugin-cache"
+
+  # Ansible configuration
+  ANSIBLE_CONFIG: "/workspace/Homelab/infra/ansible/ansible.cfg"
+  ANSIBLE_HOST_KEY_CHECKING: "False"
+
+  # Homelab environment
+  HOMELAB_ENV: "kubernetes"
+  HOMELAB_DOMAIN: "homelab.local"
+
+  # Git configuration
+  GIT_AUTHOR_NAME: "Homelab Developer"
+  GIT_AUTHOR_EMAIL: "dev@homelab.local"
+
+  # Code server settings
+  code-server-config.yaml: |
+    bind-addr: 0.0.0.0:8080
+    auth: password
+    cert: false
+    disable-telemetry: true
+    disable-update-check: true
