@@ -106,5 +106,16 @@
     "https://www.terraform.io/docs",
     "https://docs.ansible.com/",
     "https://docs.k3s.io/"
-  ]
+  ],
+
+  "experimental": {
+    "modelContextProtocolServers": [
+      {
+        "name": "homelab-tools",
+        "description": "Full homelab CLI tool access in WSL",
+        "command": "wsl",
+        "args": ["-e", "node", "${workspaceFolder}/mcp-server/homelab-mcp-server.js"]
+      }
+    ]
+  }
 }

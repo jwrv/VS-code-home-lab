@@ -1,0 +1,23 @@
+{
+  "name": "homelab-mcp-server",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server for homelab CLI tools",
+  "main": "homelab-mcp-server.js",
+  "scripts": {
+    "start": "node homelab-mcp-server.js",
+    "test": "node test-mcp-server.js"
+  },
+  "keywords": [
+    "mcp",
+    "homelab",
+    "kubernetes",
+    "terraform",
+    "ansible",
+    "ai"
+  ],
+  "author": "Homelab Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

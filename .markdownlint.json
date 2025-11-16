@@ -2,10 +2,21 @@
   "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json",
   "default": true,
 
-  // Line length - disabled to avoid issues with long lines in documentation
-  "MD013": false,
+  // STRICT CONFIGURATION - All rules enabled with proper standards
 
-  // Allow inline HTML (useful for complex formatting)
+  // Line length - enforce 100 characters for readability
+  "MD013": {
+    "line_length": 100,
+    "heading_line_length": 100,
+    "code_block_line_length": 120,
+    "code_blocks": true,
+    "tables": false,
+    "headings": true,
+    "strict": false,
+    "stern": false
+  },
+
+  // Inline HTML - only allow specific elements when necessary
   "MD033": {
     "allowed_elements": [
       "br",
@@ -18,11 +29,13 @@
     ]
   },
 
-  // Allow first line not to be a top-level heading
-  "MD041": false,
+  // First line should be a top-level heading (enforce good document structure)
+  "MD041": {
+    "level": 1
+  },
 
-  // Allow bare URLs (common in documentation)
-  "MD034": false,
+  // No bare URLs - use link syntax [text](url)
+  "MD034": true,
 
   // Enforce consistent list marker style
   "MD004": {
@@ -44,28 +57,50 @@
     "style": "fenced"
   },
 
-  // Allow duplicate headings (common in READMEs with multiple sections)
+  // Duplicate headings allowed only at same level (sibling)
   "MD024": {
     "siblings_only": true
   },
 
   // Trailing spaces - allow 2 spaces for line breaks
   "MD009": {
-    "br_spaces": 2
+    "br_spaces": 2,
+    "list_item_empty_lines": false,
+    "strict": false
   },
 
-  // Multiple consecutive blank lines
+  // Maximum one consecutive blank line
   "MD012": {
-    "maximum": 2
+    "maximum": 1
   },
 
-  // Enforce heading style
+  // Enforce ATX-style headings (#)
   "MD003": {
     "style": "atx"
   },
 
-  // Allow punctuation in headings
+  // No trailing punctuation in headings
   "MD026": {
-    "punctuation": ".,;:"
-  }
+    "punctuation": ".,;:!?"
+  },
+
+  // Enforce ordered list item prefix
+  "MD029": {
+    "style": "ordered"
+  },
+
+  // Code blocks should have language specified
+  "MD040": true,
+
+  // Enforce proper heading increments
+  "MD001": true,
+
+  // Headings should be surrounded by blank lines
+  "MD022": {
+    "lines_above": 1,
+    "lines_below": 1
+  },
+
+  // Lists should be surrounded by blank lines
+  "MD032": true
 }
