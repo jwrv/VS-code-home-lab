@@ -32,9 +32,35 @@ A comprehensive, deployable VS Code environment specifically configured for buil
 - **Google Gemini** - Multi-modal AI support
 - **ChatGPT/OpenAI** - Custom integrations
 
-## Quick Start
+## 🚀 Recommended: Use the Optimized Workspace!
 
-### Option 1: Dev Container (Recommended)
+**The fastest way to get started** is using the pre-configured workspace file:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/jwrv/VS-code-home-lab.git
+   cd VS-code-home-lab
+   ```
+
+2. **Open the workspace**:
+   ```bash
+   code homelab.code-workspace
+   ```
+
+**That's it!** The workspace automatically:
+- ✅ Opens all homelab folders organized by purpose
+- ✅ Configures AI assistants optimally
+- ✅ Sets up terminals (WSL by default)
+- ✅ Enables auto-formatting and linting
+- ✅ Provides quick tasks (Ctrl+Shift+B)
+
+**See the [Workspace Guide](docs/WORKSPACE_GUIDE.md) for full details!**
+
+---
+
+## Alternative Setup Options
+
+### Option 1: Dev Container
 
 1. **Prerequisites**:
    - VS Code with Remote - Containers extension
