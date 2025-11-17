@@ -325,14 +325,113 @@
     "remote.WSL.useShellEnvironment": true,
 
     // ================================================================
-    // WORKBENCH APPEARANCE
+    // WORKBENCH APPEARANCE & UI LAYOUT
     // ================================================================
 
+    // Theme and icons
     "workbench.colorTheme": "Default Dark+",
     "workbench.iconTheme": "vscode-icons",
     "workbench.startupEditor": "readme",
+
+    // Editor behavior
     "workbench.editor.enablePreview": false,
     "workbench.editor.closeOnFileDelete": true,
+    "workbench.editor.openPositioning": "last",
+    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editor.wrapTabs": false,
+
+    // Sidebar configuration - LEFT SIDE (File Explorer)
+    "workbench.sideBar.location": "left",
+    "workbench.activityBar.visible": true,
+    "workbench.activityBar.location": "default",
+    "workbench.tree.indent": 20,
+    "workbench.tree.renderIndentGuides": "always",
+
+    // Primary sidebar views (show by default)
+    "workbench.view.alwaysShowHeaderActions": true,
+
+    // Panel configuration - BOTTOM (Terminal, Output, Problems)
+    "workbench.panel.defaultLocation": "bottom",
+    "workbench.panel.opensMaximized": "never",
+
+    // Status bar (bottom)
+    "workbench.statusBar.visible": true,
+
+    // Layout proportions
+    "workbench.editor.splitSizing": "split",
+
+    // Window title
+    "window.title": "${rootName}${separator}${activeEditorShort}",
+    "window.titleBarStyle": "custom",
+
+    // ================================================================
+    // DEFAULT VIEW/PANEL VISIBILITY FOR HOMELAB
+    // ================================================================
+
+    // Left sidebar - Explorer view by default
+    "workbench.startupEditor": "readme",
+
+    // Problems panel - always visible for linting
+    "problems.autoReveal": true,
+    "problems.showCurrentInStatus": true,
+
+    // Output panel - auto-show for builds/tasks
+    "output.smartScroll.enabled": true,
+
+    // Terminal panel - integrated at bottom
+    "terminal.integrated.defaultLocation": "view",
+
+    // Extensions sidebar - minimize to save space
+    "extensions.autoUpdate": "onlyEnabledExtensions",
+    "extensions.ignoreRecommendations": false,
+
+    // Search - show in primary sidebar
+    "search.collapseResults": "auto",
+    "search.smartCase": true,
+
+    // Source Control (Git) - show in sidebar
+    "scm.defaultViewMode": "tree",
+    "scm.autoReveal": true,
+
+    // ================================================================
+    // SPLIT EDITOR LAYOUT OPTIMIZATION
+    // ================================================================
+
+    // When opening files side-by-side
+    "workbench.editor.splitInGroupLayout": "vertical",
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 10,
+    "workbench.editor.limit.perEditorGroup": true,
+
+    // Diff editor
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.renderSideBySide": true,
+
+    // ================================================================
+    // PEEK & PREVIEW BEHAVIOR
+    // ================================================================
+
+    // Peek editor (Go to Definition, etc.)
+    "editor.peekWidgetDefaultFocus": "editor",
+    "references.preferredLocation": "peek",
+    "gotoLocation.multipleDefinitions": "peek",
+    "gotoLocation.multipleReferences": "peek",
+    "gotoLocation.multipleImplementations": "peek",
+
+    // ================================================================
+    // KUBERNETES & CLOUD INTEGRATION PANELS
+    // ================================================================
+
+    // Kubernetes tree view (if extension installed)
+    "vs-kubernetes": {
+      "vs-kubernetes.crd-code-completion": "enabled",
+      "vs-kubernetes.kubectl-path.windows": "wsl kubectl"
+    },
+
+    // Docker view
+    "docker.truncateLongRegistryPaths": false,
+    "docker.truncateMaxLength": 30,
 
     // ================================================================
     // TODO TREE (TASK TRACKING)

@@ -12,8 +12,10 @@ A **workspace** is like a saved configuration for VS Code that:
 - Loads the right extensions
 - Creates custom shortcuts and commands
 - Optimizes everything for AI assistants
+- **Organizes all the windows, panels, and layout perfectly**
 
-**Think of it as**: A pre-configured VS Code setup that knows you're working on a homelab!
+**Think of it as**: A pre-configured VS Code setup that knows you're working on a homelab and
+arranges everything exactly where you need it!
 
 ## Quick Start
 
@@ -119,6 +121,49 @@ Everything stays clean automatically:
 - `.yaml` files use YAML tools
 - `.tf` files use Terraform tools
 - Everything opens with the right editor
+
+### VS Code Window Layout (Optimized!)
+
+The workspace automatically organizes all VS Code windows and panels for homelab work:
+
+**LEFT SIDE - Activity Bar & Sidebar**:
+
+- **Activity Bar**: Icons for Explorer, Search, Git, Extensions, etc.
+- **Primary Sidebar**: File Explorer showing all 6 homelab folders
+- **Indent guides**: Makes folder structure crystal clear
+- **Icon theme**: Beautiful icons for file types (vscode-icons)
+
+**CENTER - Editor Area**:
+
+- **Multiple tabs**: All open files shown at top
+- **Split editors**: Can view files side-by-side (vertical split)
+- **Minimap**: Code overview on right side of editor
+- **Line numbers**: Easy code navigation
+- **Rulers at 100/120 chars**: Keeps code properly formatted
+
+**BOTTOM - Integrated Panels**:
+
+- **Terminal**: WSL bash by default (AI-preferred!)
+- **Problems**: Shows linting errors/warnings in real-time
+- **Output**: Build/task output appears here
+- **Debug Console**: When debugging Python/Node scripts
+- **Tabs**: Switch between Terminal/Problems/Output easily
+
+**BOTTOM RIGHT - Status Bar**:
+
+- Current Git branch
+- Line/column number
+- File type (YAML, Terraform, etc.)
+- AI assistant status (Copilot, Claude, etc.)
+- Errors/warnings count
+
+**What this means**:
+
+- Everything you need is visible without hunting
+- AI assistants can see the same layout you do
+- Terminal is always accessible at bottom
+- Problems show up immediately when linting runs
+- Multi-folder view keeps all homelab code organized
 
 ## Using the Workspace
 
