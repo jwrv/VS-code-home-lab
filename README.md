@@ -285,25 +285,119 @@ chmod 600 .vault_pass
 
 ### AI Assistant Setup
 
-#### GitHub Copilot
-1. Sign in to GitHub in VS Code
-2. Copilot will activate automatically
-3. See [.ai-assistants/github-copilot-config.md](.ai-assistants/github-copilot-config.md)
+**All AI assistant API keys should be configured in `.env` file** for centralized management.
 
-#### Claude Code
-1. Already installed in extensions
-2. Authenticate when prompted
-3. See [.ai-assistants/claude-code-config.md](.ai-assistants/claude-code-config.md)
+#### 1. Add API Keys to `.env`
 
-#### Google Gemini
-1. Install Cloud Code extension
-2. Authenticate: `gcloud auth login`
-3. See [.ai-assistants/gemini-config.md](.ai-assistants/gemini-config.md)
+Edit your `.env` file and add your API keys:
 
-#### ChatGPT/OpenAI
-1. Install ChatGPT extension from marketplace
-2. Configure API key in settings
-3. See [.ai-assistants/chatgpt-codex-config.md](.ai-assistants/chatgpt-codex-config.md)
+```bash
+# AI Assistant API Keys
+ANTHROPIC_API_KEY=sk-ant-your-key-here          # For Claude Code
+OPENAI_API_KEY=sk-your-openai-key-here          # For ChatGPT/Copilot
+GOOGLE_API_KEY=your-google-api-key-here         # For Gemini
+```
+
+**Get your API keys**:
+
+- **Anthropic Claude**: <https://console.anthropic.com/settings/keys>
+- **OpenAI**: <https://platform.openai.com/api-keys>
+- **Google Gemini**: <https://makersuite.google.com/app/apikey>
+
+#### 2. Configure Each AI Assistant
+
+**GitHub Copilot**:
+
+1. Sign in to GitHub in VS Code (`Ctrl+Shift+P` → "GitHub: Sign In")
+2. Copilot activates automatically with GitHub subscription
+3. No API key needed (uses GitHub auth)
+
+**Claude Code**:
+
+1. Install extension (already in `extensions.json`)
+2. On first use, you'll be prompted to authenticate
+3. Alternatively, set `ANTHROPIC_API_KEY` in `.env`
+4. Verify: Check status bar for Claude icon
+
+**Google Gemini Code Assist**:
+
+1. Install extension: `google.geminicodeassist`
+2. Set `GOOGLE_API_KEY` in `.env`
+3. Reload VS Code window
+4. Verify: Right-click code → "Ask Gemini" should appear
+
+**Continue.dev** (uses multiple providers):
+
+1. Already configured in [.continuerc.json](.continuerc.json)
+2. Uses API keys from `.env` automatically:
+   - `ANTHROPIC_API_KEY` for Claude models
+   - `OPENAI_API_KEY` for GPT models
+   - `GOOGLE_API_KEY` for Gemini models
+3. Select model in Continue panel
+
+#### 3. Fetch Secrets from Vault/Bitwarden (Optional)
+
+Instead of manually editing `.env`, fetch secrets automatically:
+
+```bash
+# Fetch from Vault or Bitwarden
+source scripts/fetch-secrets.sh
+
+# Or specify backend
+source scripts/fetch-secrets.sh vault
+source scripts/fetch-secrets.sh bitwarden
+```
+
+This loads API keys into your environment without storing them in `.env`.
+
+See [scripts/fetch-secrets.sh](scripts/fetch-secrets.sh) for details.
+
+#### 4. Verify AI Assistants Work
+
+Test each assistant:
+
+1. **Copilot**: Start typing code, suggestions appear
+2. **Claude Code**: Click Claude icon in sidebar
+3. **Gemini**: Right-click code → "Ask Gemini"
+4. **Continue.dev**: Open Continue panel (sidebar)
+
+**Troubleshooting**: See [docs/AI_ASSISTANTS_SETUP.md](docs/AI_ASSISTANTS_SETUP.md)
+
+### Secrets Management with Vault/Bitwarden
+
+For production or team environments, use a secrets manager instead of `.env`:
+
+**HashiCorp Vault**:
+
+```bash
+# Store AI keys in Vault
+vault kv put secret/ai-keys \
+  anthropic="sk-ant-..." \
+  openai="sk-..." \
+  google="..."
+
+# Fetch and use
+source scripts/fetch-secrets.sh vault
+```
+
+**Bitwarden CLI**:
+
+```bash
+# Store as Bitwarden items
+bw create item '{"name":"Anthropic API","login":{"password":"sk-ant-..."}}'
+bw create item '{"name":"OpenAI API","login":{"password":"sk-..."}}'
+
+# Fetch and use
+source scripts/fetch-secrets.sh bitwarden
+```
+
+**Benefits**:
+
+- Secrets never stored in files
+- Centralized access control
+- Audit logs for secret access
+- Easy rotation
+- Team-friendly
 
 ## Common Tasks
 

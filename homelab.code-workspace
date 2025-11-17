@@ -581,7 +581,12 @@
         "type": "shell",
         "command": "terraform plan -out=tfplan",
         "options": {
-          "cwd": "${workspaceFolder:Terraform}"
+          "cwd": "${workspaceFolder:Terraform}",
+          "env": {
+            "TF_DATA_DIR": "${env:TF_DATA_DIR}",
+            "AWS_ACCESS_KEY_ID": "${env:AWS_ACCESS_KEY_ID}",
+            "AWS_SECRET_ACCESS_KEY": "${env:AWS_SECRET_ACCESS_KEY}"
+          }
         },
         "presentation": {
           "reveal": "always",
@@ -594,7 +599,12 @@
         "type": "shell",
         "command": "terraform apply tfplan",
         "options": {
-          "cwd": "${workspaceFolder:Terraform}"
+          "cwd": "${workspaceFolder:Terraform}",
+          "env": {
+            "TF_DATA_DIR": "${env:TF_DATA_DIR}",
+            "AWS_ACCESS_KEY_ID": "${env:AWS_ACCESS_KEY_ID}",
+            "AWS_SECRET_ACCESS_KEY": "${env:AWS_SECRET_ACCESS_KEY}"
+          }
         },
         "presentation": {
           "reveal": "always",
@@ -610,7 +620,12 @@
         "type": "shell",
         "command": "ansible-playbook ${file} --check",
         "options": {
-          "cwd": "${workspaceFolder:Ansible}"
+          "cwd": "${workspaceFolder:Ansible}",
+          "env": {
+            "ANSIBLE_CONFIG": "${env:ANSIBLE_CONFIG}",
+            "ANSIBLE_VAULT_PASSWORD_FILE": "${env:ANSIBLE_VAULT_PASSWORD_FILE}",
+            "ANSIBLE_INVENTORY": "${env:ANSIBLE_INVENTORY}"
+          }
         },
         "presentation": {
           "reveal": "always",
@@ -623,7 +638,12 @@
         "type": "shell",
         "command": "ansible-playbook ${file}",
         "options": {
-          "cwd": "${workspaceFolder:Ansible}"
+          "cwd": "${workspaceFolder:Ansible}",
+          "env": {
+            "ANSIBLE_CONFIG": "${env:ANSIBLE_CONFIG}",
+            "ANSIBLE_VAULT_PASSWORD_FILE": "${env:ANSIBLE_VAULT_PASSWORD_FILE}",
+            "ANSIBLE_INVENTORY": "${env:ANSIBLE_INVENTORY}"
+          }
         },
         "presentation": {
           "reveal": "always",

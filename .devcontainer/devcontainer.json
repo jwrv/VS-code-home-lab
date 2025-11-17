@@ -55,10 +55,12 @@
 
   // Configure container environment variables
   "containerEnv": {
-    "KUBECONFIG": "/workspace/.kube/config",
-    "ANSIBLE_CONFIG": "/workspace/Homelab/infra/ansible/ansible.cfg",
-    "TF_DATA_DIR": "/workspace/Homelab/infra/terraform/.terraform",
-    "HOMELAB_ENV": "development"
+    "KUBECONFIG": "${localEnv:KUBECONFIG:/workspace/.kube/config}",
+    "ANSIBLE_CONFIG": "${localEnv:ANSIBLE_CONFIG:/workspace/Homelab/infra/ansible/ansible.cfg}",
+    "TF_DATA_DIR": "${localEnv:TF_DATA_DIR:/workspace/Homelab/infra/terraform/.terraform}",
+    "HOMELAB_ENV": "${localEnv:HOMELAB_ENV:development}",
+    "HOMELAB_PATH": "${localEnv:HOMELAB_PATH:../Homelab}",
+    "TZ": "${localEnv:TZ:America/New_York}"
   },
 
   // Mount the workspace folder

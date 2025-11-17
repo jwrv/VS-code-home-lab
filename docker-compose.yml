@@ -13,9 +13,9 @@ services:
     environment:
       - PASSWORD=${VSCODE_PASSWORD:-changeme}
       - SUDO_PASSWORD=${VSCODE_SUDO_PASSWORD:-changeme}
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-America/New_York}
       - DEFAULT_WORKSPACE=/workspace/Homelab
 
     volumes:
@@ -43,7 +43,7 @@ services:
       - homelab-dev
 
     # User with Docker group access
-    user: "1000:999"  # Adjust group ID to match Docker group
+    user: "${PUID:-1000}:${DOCKER_GID:-999}"
 
     # Add capabilities for networking tools
     cap_add:
