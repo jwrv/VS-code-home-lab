@@ -32,17 +32,51 @@ A comprehensive, deployable VS Code environment specifically configured for buil
 - **Google Gemini** - Multi-modal AI support
 - **ChatGPT/OpenAI** - Custom integrations
 
-## 🚀 Recommended: Use the Optimized Workspace!
+## ⚙️ Before You Start
 
-**The fastest way to get started** is using the pre-configured workspace file:
+**First-time setup** (do this once):
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/jwrv/VS-code-home-lab.git
    cd VS-code-home-lab
    ```
 
-2. **Open the workspace**:
+2. **Configure environment variables**:
+
+   ```bash
+   # Copy template and edit with your values
+   cp .env.example .env
+   nano .env  # or vim, code, etc.
+   ```
+
+   See [.env.example](.env.example) for all configuration options.
+
+3. **Set up code quality hooks** (optional but recommended):
+
+   ```bash
+   # Install pre-commit framework
+   pip install pre-commit
+
+   # Install git hooks
+   pre-commit install
+
+   # Test (optional)
+   pre-commit run --all-files
+   ```
+
+4. **Verify Homelab repository location**:
+
+   The workspace expects your Homelab repository at `../Homelab` (sibling directory).
+   If yours is elsewhere, update `HOMELAB_PATH` in `.env` or adjust workspace folder paths.
+
+## 🚀 Recommended: Use the Optimized Workspace!
+
+**The fastest way to get started** is using the pre-configured workspace file:
+
+1. **Open the workspace**:
+
    ```bash
    code homelab.code-workspace
    ```
@@ -149,25 +183,90 @@ cat .vscode/extensions.json | jq -r '.recommendations[]' | xargs -L 1 code --ins
 
 ## Configuration
 
+### Important Path Requirements
+
+**This workspace expects your main Homelab repository to exist at `../Homelab`** (as a sibling
+directory to VS-code-home-lab).
+
+If your Homelab repository is located elsewhere:
+
+1. **Option A: Update `.env` file** (recommended):
+
+   ```bash
+   # In .env
+   HOMELAB_PATH=/path/to/your/Homelab
+   ```
+
+2. **Option B: Adjust workspace folder paths**:
+   Edit [homelab.code-workspace](homelab.code-workspace) and update folder paths:
+
+   ```json
+   "folders": [
+     { "name": "🏠 Homelab Root", "path": "." },
+     { "name": "☸️ Kubernetes", "path": "/your/path/to/Homelab/infra/kubernetes" },
+     { "name": "🔧 Terraform", "path": "/your/path/to/Homelab/infra/terraform" },
+     // etc...
+   ]
+   ```
+
+3. **Option C: Use symbolic link**:
+
+   ```bash
+   # Create symlink to match expected location
+   ln -s /path/to/your/Homelab ../Homelab
+   ```
+
+**Why this matters**: Tasks, launch configurations, and documentation all assume this structure.
+Getting this right ensures commands run in the correct directories.
+
 ### Connecting to Your Homelab
 
-#### 1. SSH Keys
-Mount your SSH keys:
+#### 1. Environment Variables
+
+All configuration is centralized in `.env`. **Copy `.env.example` to `.env` and customize**:
+
+```bash
+cp .env.example .env
+```
+
+Key variables to configure:
+
+- `KUBECONFIG` - Path to your Kubernetes config
+- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - For Terraform state (MinIO/S3)
+- `PROXMOX_VE_ENDPOINT` - Proxmox API endpoint
+- `ANSIBLE_VAULT_PASSWORD_FILE` - Path to Ansible vault password
+- `SSH_KEY_PATH` - SSH key for homelab servers
+
+See [.env.example](.env.example) for complete documentation.
+
+#### 2. SSH Keys
+
 ```bash
 # Dev container automatically mounts ~/.ssh
-# For Docker Compose, add volume:
+# For Docker Compose, add volume in docker-compose.yml:
 volumes:
   - ~/.ssh:/root/.ssh:ro
 ```
 
-#### 2. Kubeconfig
-```bash
-# Copy your kubeconfig
-mkdir -p .kube
-cp ~/.kube/config .kube/config
+Or set in `.env`:
 
-# Or use kubectl from your homelab
-export KUBECONFIG=/path/to/homelab/kubeconfig
+```bash
+SSH_KEY_PATH=/path/to/your/ssh/key
+```
+
+#### 3. Kubeconfig
+
+Configure in `.env`:
+
+```bash
+KUBECONFIG=/path/to/your/kubeconfig
+```
+
+Or copy to standard location:
+
+```bash
+mkdir -p ~/.kube
+cp /path/to/homelab/kubeconfig ~/.kube/config
 ```
 
 #### 3. Terraform State

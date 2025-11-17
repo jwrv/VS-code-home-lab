@@ -696,6 +696,51 @@ export VIRTUAL_ENV=~/venv
 4. **Ask AI to explain** - Don't guess, understand
 5. **Back up state** - Terraform state, kubeconfig, Ansible vault passwords
 
+### Troubleshooting Path Issues
+
+**If tasks fail with "No such file or directory"**:
+
+The workspace expects your Homelab repository at `../Homelab`. If you see errors like:
+
+```
+terraform: cannot change to directory '../Homelab/infra/terraform'
+```
+
+**Fix it** (choose one method):
+
+1. **Move your Homelab repo** to be a sibling directory:
+
+   ```bash
+   # From VS-code-home-lab directory
+   mv /path/to/Homelab ../Homelab
+   ```
+
+2. **Create a symbolic link**:
+
+   ```bash
+   # From VS-code-home-lab directory
+   ln -s /path/to/your/Homelab ../Homelab
+   ```
+
+3. **Update workspace folder paths**:
+   Edit `homelab.code-workspace` and change paths to your actual locations:
+
+   ```json
+   {
+     "name": "🔧 Terraform",
+     "path": "/full/path/to/your/Homelab/infra/terraform"
+   }
+   ```
+
+4. **Update `.env` with HOMELAB_PATH**:
+
+   ```bash
+   # In .env file
+   HOMELAB_PATH=/full/path/to/your/Homelab
+   ```
+
+   Then update tasks to use `${env:HOMELAB_PATH}` instead of `../Homelab`
+
 ### When to Use Each Tool
 
 - **Terraform**: Infrastructure provisioning (VMs, networks, storage)

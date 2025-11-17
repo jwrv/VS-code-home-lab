@@ -19,11 +19,39 @@ arranges everything exactly where you need it!
 
 ## Quick Start
 
+### IMPORTANT: Before Opening the Workspace
+
+**First-time setup** (skip if you've already done this):
+
+1. **Create `.env` file**:
+
+   ```bash
+   cd VS-code-home-lab
+   cp .env.example .env
+   nano .env  # Edit with your values
+   ```
+
+2. **Verify Homelab location**:
+   The workspace expects your Homelab repository at `../Homelab` (sibling directory).
+   If yours is elsewhere, either:
+   - Update `HOMELAB_PATH` in `.env`, OR
+   - Create a symlink: `ln -s /path/to/Homelab ../Homelab`, OR
+   - Edit folder paths in `homelab.code-workspace`
+
+3. **Install pre-commit hooks** (optional):
+
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+
+See the [main README](../README.md) for full first-time setup.
+
 ### Opening the Workspace
 
 **Method 1: Double-click (Easiest)**
 
-1. Navigate to your homelab folder
+1. Navigate to your VS-code-home-lab folder
 2. Find the file `homelab.code-workspace`
 3. Double-click it
 4. VS Code opens with everything configured!
