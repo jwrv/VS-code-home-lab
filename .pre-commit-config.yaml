@@ -1,6 +1,21 @@
-# Pre-commit hooks configuration for homelab VS Code environment
-# Install: pre-commit install
-# Run manually: pre-commit run --all-files
+# =================================================================
+# Pre-commit Hooks Configuration
+# =================================================================
+#
+# Automatic code quality checks before each git commit.
+#
+# SETUP:
+# 1. Install: pip install pre-commit
+# 2. Install hooks: pre-commit install
+# 3. Test: pre-commit run --all-files
+#
+# USAGE:
+# - Hooks run automatically on `git commit`
+# - Skip (emergency): git commit --no-verify
+# - Run manually: pre-commit run --all-files
+# - Update hooks: pre-commit autoupdate
+#
+# =================================================================
 
 repos:
   # General file checks
@@ -103,9 +118,30 @@ repos:
   #     - id: codespell
   #       args: [--ignore-words=.codespell-ignore, --skip="*.tfstate,*.lock"]
 
+  # Ansible linting
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v6.22.2
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$
+        exclude: ^(kubernetes/|\.github/)
+
   # GitHub Actions linting
   - repo: https://github.com/rhysd/actionlint
     rev: v1.6.27
     hooks:
       - id: actionlint-docker
         args: ["-shellcheck="]  # Disable shellcheck in actionlint (we run it separately)
+
+# =================================================================
+# CI/CD INTEGRATION
+# =================================================================
+
+# Pre-commit.ci configuration (https://pre-commit.ci)
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] Auto-fix from pre-commit hooks
+
+    🤖 Automatically fixed by pre-commit.ci
+  autofix_prs: true
+  autoupdate_schedule: weekly

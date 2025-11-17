@@ -573,6 +573,122 @@
         "presentation": {
           "reveal": "always"
         }
+      },
+
+      // Terraform tasks
+      {
+        "label": "terraform-plan",
+        "type": "shell",
+        "command": "terraform plan -out=tfplan",
+        "options": {
+          "cwd": "${workspaceFolder:Terraform}"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "terraform-apply",
+        "type": "shell",
+        "command": "terraform apply tfplan",
+        "options": {
+          "cwd": "${workspaceFolder:Terraform}"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "problemMatcher": [],
+        "dependsOn": ["terraform-plan"]
+      },
+
+      // Ansible tasks
+      {
+        "label": "ansible-dry-run",
+        "type": "shell",
+        "command": "ansible-playbook ${file} --check",
+        "options": {
+          "cwd": "${workspaceFolder:Ansible}"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "ansible-run",
+        "type": "shell",
+        "command": "ansible-playbook ${file}",
+        "options": {
+          "cwd": "${workspaceFolder:Ansible}"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "problemMatcher": []
+      },
+
+      // Kubernetes tasks
+      {
+        "label": "k8s-port-forward",
+        "type": "shell",
+        "command": "kubectl port-forward ${input:podName} ${input:localPort}:${input:remotePort}",
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "problemMatcher": []
+      },
+
+      // Observability tasks
+      {
+        "label": "🔍 Open K9s",
+        "type": "shell",
+        "command": "k9s",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        }
+      },
+      {
+        "label": "📊 Open Grafana",
+        "type": "shell",
+        "command": "xdg-open http://grafana.homelab.local:3000 || open http://grafana.homelab.local:3000",
+        "presentation": {
+          "reveal": "silent"
+        }
+      },
+      {
+        "label": "📈 Open Prometheus",
+        "type": "shell",
+        "command": "xdg-open http://prometheus.homelab.local:9090 || open http://prometheus.homelab.local:9090",
+        "presentation": {
+          "reveal": "silent"
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "id": "podName",
+        "type": "promptString",
+        "description": "Pod name to port-forward",
+        "default": "my-pod-name"
+      },
+      {
+        "id": "localPort",
+        "type": "promptString",
+        "description": "Local port",
+        "default": "8080"
+      },
+      {
+        "id": "remotePort",
+        "type": "promptString",
+        "description": "Remote port",
+        "default": "8080"
       }
     ]
   },
@@ -584,6 +700,7 @@
   "launch": {
     "version": "0.2.0",
     "configurations": [
+      // Python debugging
       {
         "name": "Python: Current File",
         "type": "python",
@@ -592,12 +709,71 @@
         "console": "integratedTerminal",
         "justMyCode": false
       },
+      // MCP Server testing
       {
         "name": "Test MCP Server",
         "type": "node",
         "request": "launch",
         "program": "${workspaceFolder}/mcp-server/homelab-mcp-server.js",
         "console": "integratedTerminal"
+      },
+      // Terraform operations
+      {
+        "name": "Terraform: Plan Current Module",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "${workspaceFolder:Terraform}"
+        ],
+        "preLaunchTask": "terraform-plan"
+      },
+      {
+        "name": "Terraform: Apply Current Module",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "${workspaceFolder:Terraform}"
+        ],
+        "preLaunchTask": "terraform-apply"
+      },
+      // Ansible playbook execution
+      {
+        "name": "Ansible: Dry Run Current Playbook",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "${workspaceFolder:Ansible}"
+        ],
+        "preLaunchTask": "ansible-dry-run"
+      },
+      {
+        "name": "Ansible: Run Current Playbook",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "${workspaceFolder:Ansible}"
+        ],
+        "preLaunchTask": "ansible-run"
+      },
+      // Kubernetes debugging
+      {
+        "name": "K8s: Port Forward to Pod",
+        "type": "extensionHost",
+        "request": "launch",
+        "runtimeExecutable": "${execPath}",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "${workspaceFolder:Kubernetes}"
+        ],
+        "preLaunchTask": "k8s-port-forward"
       }
     ]
   }
